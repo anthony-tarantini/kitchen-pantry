@@ -1,0 +1,41 @@
+name: Build and Deploy server to EC2
+
+on:
+   workflow_dispatch:
+      inputs:
+         version:
+            description: 'build version'
+            required: true
+
+jobs:
+   build_and_push:
+      runs-on: ubuntu-latest
+      steps:
+         -  name: Checkout the repo
+            uses: actions/checkout@v2
+         -  name: Setup Java
+            uses: actions/setup-java@v3
+            with:
+               distribution: "temurin"
+               java-version: "17"
+         -  name: Execute Gradle Build
+            uses: gradle/gradle-build-action@v2
+            with:
+               arguments: shadowJar -Pversion=${{ github.event.inputs.version }}
+         -  name: Deploy To EC2
+            uses: easingthemes/ssh-deploy@main
+            with:
+               SOURCE: "app/build/libs/pantry-server-${{ github.event.inputs.version }}.jar"
+               SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+               REMOTE_HOST: ${{ secrets.HOST_DNS }}
+               REMOTE_USER: ${{ secrets.USERNAME }}
+               TARGET: ${{ secrets.TARGET_DIR }}
+               SCRIPT_AFTER: |
+                  sudo systemctl stop webapp
+                  sudo rm /home/ubuntu/apps/pantry-server-$LAST_VERSION.jar
+                  sudo sed -i 's/"VERSION=.*"/"VERSION=${{ github.event.inputs.version }}"/g' /etc/systemd/system/webapp.service
+                  echo "export ENV_NAME=prod" >> /home/ubuntu/.profile
+                  export LAST_VERSION=${{ github.event.inputs.version }}
+                  sudo systemctl daemon-reload
+                  sudo systemctl start webapp
+

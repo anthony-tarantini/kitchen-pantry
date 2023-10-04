@@ -1,0 +1,11 @@
+datadog:
+   enabled: false
+   api-key: ""
+   #api-key: "secretsmanager://prod-template-datadog-api-key"
+
+db:
+   url: jdbc:postgresql://terraform-20230925163844302800000004.cs19mdzizvie.us-east-2.rds.amazonaws.com:5432/pantry_database
+   username: "secretsmanager://database_username_secret"
+   password: "secretsmanager://database_password_secret"
+   minimumIdle: 16
+   maximumPoolSize: 32
