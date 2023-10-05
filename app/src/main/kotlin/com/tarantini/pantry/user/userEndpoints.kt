@@ -26,15 +26,13 @@ fun Route.userEndpoints(userService: UserService) {
       }
    }
 
-   post("/v1/users/{userId}/items") {
+   post("/v1/users/items") {
       withUserSession { session ->
-         withPathParam<Int>("userId") { userId ->
-            withRequest<CreateUserItemRequest> { request ->
-               userService.addItemToUser(userId, request.itemId, request.weight).fold(
-                  { call.respond(HttpStatusCode.OK, it) },
-                  { call.respond(HttpStatusCode.InternalServerError, it) }
-               )
-            }
+         withRequest<CreateUserItemRequest> { request ->
+            userService.addItemToUser(session.id, request.itemId, request.weight).fold(
+               { call.respond(HttpStatusCode.OK, it) },
+               { call.respond(HttpStatusCode.InternalServerError, it) }
+            )
          }
       }
    }
