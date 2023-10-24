@@ -10,6 +10,10 @@ variable "vpc_cidr_block" {
    default = "10.0.0.0/16"
 }
 
+variable "personal_ip" {}
+variable "google_client_id" {}
+variable "google_client_secret" {}
+
 variable "subnet_configuration" {
    default = {
       public = {

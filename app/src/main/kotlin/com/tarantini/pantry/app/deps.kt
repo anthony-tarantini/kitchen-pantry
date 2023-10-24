@@ -2,6 +2,7 @@ package com.tarantini.pantry.app
 
 import com.sksamuel.hoplite.env.Environment
 import com.tarantini.pantry.datastore.createDataSource
+import com.tarantini.pantry.images.ImageService
 import com.tarantini.pantry.item.ItemDatastore
 import com.tarantini.pantry.item.ItemService
 import com.tarantini.pantry.user.UserDatastore
@@ -38,6 +39,8 @@ fun createDependencies(env: Environment, serviceName: String, config: Config): D
       }
    }
 
+   val imageService = ImageService(httpClient, config.assets)
+
    return Dependencies(
 //      registry,
       ds,
@@ -46,7 +49,8 @@ fun createDependencies(env: Environment, serviceName: String, config: Config): D
       itemService,
       userDatastore,
       userService,
-      userItemDatastore
+      userItemDatastore,
+      imageService
    )
 }
 
@@ -64,5 +68,6 @@ data class Dependencies(
    val itemService: ItemService,
    val userDatastore: UserDatastore,
    val userService: UserService,
-   val userItemDatastore: UserItemDatastore
+   val userItemDatastore: UserItemDatastore,
+   val imageService: ImageService
 )

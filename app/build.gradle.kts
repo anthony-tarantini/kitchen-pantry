@@ -14,6 +14,8 @@ dependencies {
    api(rootProject.deps.bundles.hoplite)
    api(rootProject.deps.micrometer.core)
    api(rootProject.deps.micrometer.registry.datadog)
+   implementation(platform("software.amazon.awssdk:bom:2.21.1"))
+   implementation("software.amazon.awssdk:s3")
 
    // services
    api(rootProject.deps.bundles.ktor.server)

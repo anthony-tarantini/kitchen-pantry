@@ -8,5 +8,9 @@ sessionConfig:
 
 google-auth:
    issuer: "https://accounts.google.com"
-   audience: "secretsmanager://GOOGLE_CLIENT_ID"
    certificateUrl: "https://www.googleapis.com/oauth2/v3/certs"
+
+assets:
+   imagesUrl: "d1xih0ax78qrb8.cloudfront.net/images"
+   bucketName: "assets.kitchen-pantry.com"
+   imagePrefix: "images/"

@@ -9,6 +9,7 @@ cohort = "2.2.1"
 micrometer = "1.10.6"
 jbcrypt = "0.4"
 google = "2.2.0"
+aws = "0.25.0-beta"
 
 [libraries]
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
@@ -64,6 +65,8 @@ micrometer-registry-datadog = { module = "io.micrometer:micrometer-registry-data
 google-login = { module = "com.google.api-client:google-api-client", version.ref = "google" }
 
 jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt" }
+
+aws = { module = "aws.sdk.kotlin:s3", version.ref = "aws" }
 
 postgresql = { module = "org.postgresql:postgresql", version = "42.6.0" }
 hikari = { module = "com.zaxxer:HikariCP", version = "5.0.1" }

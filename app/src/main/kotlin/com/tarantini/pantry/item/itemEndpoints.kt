@@ -9,14 +9,14 @@ import io.ktor.server.routing.*
 
 fun Route.itemEndpoints(service: ItemService) {
 
-   get("/v1/items") {
+   get("/items") {
       service.findAll().fold(
          { call.respond(HttpStatusCode.OK, it) },
          { call.respond(HttpStatusCode.InternalServerError, it) }
       )
    }
 
-   post("/v1/items") {
+   post("/items") {
       withRequest<CreateItemRequest> { request ->
          service.create(request.name, request.tags).fold(
             { result -> call.respond(HttpStatusCode.Created, result) },
@@ -25,7 +25,7 @@ fun Route.itemEndpoints(service: ItemService) {
       }
    }
 
-   delete("/v1/items") {
+   delete("/items") {
       service.deleteAllItems().fold(
          { call.respond(HttpStatusCode.NoContent) },
          { call.respond(HttpStatusCode.InternalServerError, it) }

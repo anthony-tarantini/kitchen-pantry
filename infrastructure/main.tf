@@ -1,24 +1,3 @@
-terraform {
-   required_providers {
-      aws = {
-         source  = "hashicorp/aws"
-         version = "~> 4.16"
-      }
-   }
-
-   required_version = ">= 1.2.0"
-}
-
-provider "aws" {
-   region = var.aws_region
-}
-
-provider "aws" {
-   alias = "acm"
-
-   region = var.acm_region
-}
-
 data "aws_availability_zones" "available" {
    state = "available"
 }
@@ -114,7 +93,7 @@ resource "aws_security_group" "pantry_web_sg" {
       from_port   = "22"
       to_port     = "22"
       protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = [var.personal_ip]
    }
 
    egress {

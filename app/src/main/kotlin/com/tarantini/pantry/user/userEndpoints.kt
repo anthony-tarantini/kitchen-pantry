@@ -10,14 +10,14 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.userEndpoints(userService: UserService) {
-   get("/v1/users") {
+   get("/users") {
       userService.all().fold(
          { call.respond(HttpStatusCode.OK, it) },
          { call.respond(HttpStatusCode.InternalServerError, it) }
       )
    }
 
-   get("/v1/users/{userId}/items") {
+   get("/users/{userId}/items") {
       withPathParam<Int>("userId") { userId ->
          userService.findAllByUser(userId).fold(
             { call.respond(HttpStatusCode.OK, it) },
@@ -26,7 +26,7 @@ fun Route.userEndpoints(userService: UserService) {
       }
    }
 
-   post("/v1/users/items") {
+   post("/users/items") {
       withUserSession { session ->
          withRequest<CreateUserItemRequest> { request ->
             userService.addItemToUser(session.id, request.itemId, request.weight).fold(

@@ -5,6 +5,7 @@ import com.sksamuel.hoplite.addResourceSource
 import com.sksamuel.hoplite.aws.AwsSecretsManagerPreprocessor
 import com.sksamuel.hoplite.env.Environment
 import com.sksamuel.hoplite.secrets.PrefixObfuscator
+import com.sksamuel.hoplite.sources.EnvironmentVariablesPropertySource
 import com.tarantini.pantry.datastore.DatabaseConfig
 import io.micrometer.datadog.DatadogConfig
 import kotlin.time.Duration
@@ -21,6 +22,7 @@ fun createConfig(env: Environment) = ConfigLoaderBuilder.default()
    // .addPreprocessor(GcpSecretManagerPreprocessor(report = true)) // uncomment to enable gcp secrets processing
    // .addPreprocessor(VaultPreprocessor(report = true)) // uncomment to enable hashicorp vault secrets processing
    // .addPreprocessor(AzureKeyVaultPreprocessor(report = true)) // uncomment to enable azure secrets processing
+   .addPropertySource(EnvironmentVariablesPropertySource(false, allowUppercaseNames = false))
    .addResourceSource("/application-${env}.yml", optional = true) // env specific settings
    .addResourceSource("/shared.yml", optional = true) // shared config goes in shared.yml
    .withReport() // shows config values at startup
@@ -52,6 +54,7 @@ data class Config(
    val quietPeriod: Duration,
    val googleAuth: GoogleAuth,
    val sessionConfig: SessionConfig,
+   val assets: Assets,
    val shutdownTimeout: Duration,
    val datadog: DatadogConfig,
    val db: DatabaseConfig,
@@ -66,4 +69,10 @@ data class GoogleAuth(
    val audience: String,
    val issuer: String,
    val certificateUrl: String
+)
+
+data class Assets(
+   val imagesUrl: String,
+   val bucketName: String,
+   val imagePrefix: String
 )
