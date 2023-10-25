@@ -1,12 +1,13 @@
 package com.tarantini.pantry.endpoints
 
-import com.tarantini.pantry.authentication.NoUserSessionException
-import com.tarantini.pantry.authentication.UserSession
+import com.auth0.jwt.interfaces.Payload
+import com.sksamuel.tabby.results.failureIfNull
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
-import io.ktor.server.sessions.*
 import io.ktor.server.util.*
 import io.ktor.util.pipeline.*
 import io.ktor.util.reflect.*
@@ -17,6 +18,14 @@ suspend inline fun <reified T : Any> PipelineContext<Unit, ApplicationCall>.with
       .fold(
          { f(it) },
          { call.respond(HttpStatusCode.BadRequest, it) }
+      )
+}
+
+suspend inline fun PipelineContext<Unit, ApplicationCall>.withJWTToken(f: (JWTPrincipal) -> Unit) {
+   runCatching { call.principal<JWTPrincipal>()!! }
+      .fold(
+         { f(it) },
+         { call.respond(UnauthorizedResponse()) }
       )
 }
 
@@ -46,14 +55,6 @@ suspend inline fun <reified T : Any> PipelineContext<Unit, ApplicationCall>.with
          }
       )
    }
-}
-
-suspend inline fun PipelineContext<Unit, ApplicationCall>.withUserSession(f: (UserSession) -> Unit) {
-   runCatching { call.sessions.get<UserSession>() ?: throw NoUserSessionException() }
-      .fold(
-         { f(it) },
-         { call.respond(HttpStatusCode.Unauthorized, it) }
-      )
 }
 
 @Suppress("UNCHECKED_CAST")

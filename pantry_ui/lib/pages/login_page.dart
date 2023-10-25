@@ -5,7 +5,6 @@ import 'package:pantry_ui/widgets/user_image.dart';
 import 'package:provider/provider.dart';
 
 import '../app_state.dart';
-import '../domain/user.dart';
 
 const clientId = "1007851537683-bl092bdpmkn89hmiflkm1nf47k39j8vm";
 
@@ -26,11 +25,7 @@ class _LoginPageState extends State<LoginPage> {
 
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) async {
       if (account != null) {
-        User user = User(
-            userName: account.displayName == null ? "" : account.displayName!,
-            email: account.email,
-            photoUrl: account.photoUrl == null ? "" : account.photoUrl!);
-        appState.login(user);
+        await appState.login(account);
       }
     });
 
@@ -41,9 +36,9 @@ class _LoginPageState extends State<LoginPage> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Spacer(flex: 1,),
-        Text(style: theme.textTheme.displaySmall, createText(appState.isAuthorized(), appState.currentUser?.userName)),
+        Text(style: theme.textTheme.displaySmall, createText(appState.isAuthorized(), appState.currentUser?.user.displayName)),
         Spacer(flex: 1),
-        createImage(appState.currentUser?.photoUrl),
+        createImage(appState.currentUser?.user.photoUrl),
         Spacer(flex: 1),
         Expanded(
           child: Column(

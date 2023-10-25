@@ -15,7 +15,7 @@ import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.PutObjectRequest
 import java.io.File
-import java.util.UUID
+import java.util.*
 
 class ImageService(
    private val httpClient: HttpClient,
@@ -23,15 +23,16 @@ class ImageService(
 ) {
 
    suspend fun downloadAndMoveToS3(url: String): Result<String> {
-      var file: File;
-      withContext(Dispatchers.IO) {
-         file = File.createTempFile("img", ".png", null) //img=prefix, .png=suffix, null=directory
-      }
-
-      val bodyAsChannel = httpClient.get {
+      return uploadToS3(httpClient.get {
          url(url)
          method = HttpMethod.Get
-      }.bodyAsChannel()
+      }.bodyAsChannel())
+   }
+
+   suspend fun uploadToS3(bodyAsChannel: ByteReadChannel): Result<String> {
+      val file = withContext(Dispatchers.IO) {
+         File.createTempFile("img", ".png", null)
+      }
 
       bodyAsChannel.copyAndClose(file.writeChannel())
 
@@ -48,7 +49,6 @@ class ImageService(
          .build()
 
       client.putObject(request, RequestBody.fromFile(file))
-
       return Result.success("${assets.imagesUrl}/$imageId.png")
    }
 }

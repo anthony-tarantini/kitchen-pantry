@@ -1,16 +1,32 @@
+import 'dart:collection';
+
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'package:pantry_ui/domain/user.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+import 'networking/api_client.dart';
+
+class PantryUser {
+  GoogleSignInAccount user;
+  String accessToken;
+  int userId;
+
+  PantryUser({required this.user, required this.accessToken, required this.userId}){}
+}
 
 class AppState extends ChangeNotifier {
-  User? currentUser;
+  PantryUser? currentUser;
+  String accessToken = "";
   var current = WordPair.random();
   var history = <WordPair>[];
 
   GlobalKey? historyListKey;
 
-  void login(User user) {
-    currentUser = user;
+  Future<void> login(GoogleSignInAccount user) async {
+    var authentication = (await user.authentication);
+    accessToken = authentication.idToken!;
+    var response = (await authenticate(accessToken));
+    currentUser = PantryUser(user: user, accessToken: accessToken, userId: response.userId);
     notifyListeners();
   }
 

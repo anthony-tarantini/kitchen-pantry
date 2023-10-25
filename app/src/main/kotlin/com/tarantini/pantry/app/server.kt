@@ -4,7 +4,6 @@ import com.sksamuel.cohort.Cohort
 import com.tarantini.pantry.plugins.configureCohort
 import com.tarantini.pantry.plugins.configureCors
 import com.tarantini.pantry.plugins.configureGoogleJwt
-import com.tarantini.pantry.plugins.configureSessions
 import createRouting
 import io.ktor.serialization.jackson.*
 import io.ktor.server.application.*
@@ -62,15 +61,12 @@ private fun function(
    install(CORS) {
       configureCors()
    }
-   install(Sessions) {
-      configureSessions(config)
-   }
    // health checks and actuator endpoints
    install(Cohort) {
       configureCohort(dependencies)
    }
    install(Authentication) {
-      configureGoogleJwt(config)
+      configureGoogleJwt(config.googleAuth)
    }
    createRouting(dependencies)
 }

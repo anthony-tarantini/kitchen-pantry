@@ -11,8 +11,8 @@ class UserService(private val datastore: UserDatastore, private val userItemData
       return datastore.insert(user)
    }
 
-   suspend fun exists(user: User): Result<Int?> {
-      return datastore.existsByEmail(user.email)
+   suspend fun exists(email: String): Result<Int?> {
+      return datastore.existsByEmail(email)
    }
 
    suspend fun all(): Result<List<User>> {

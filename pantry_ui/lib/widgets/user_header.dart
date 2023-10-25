@@ -17,8 +17,8 @@ class UserHeader extends StatelessWidget {
     );
 
     return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      UserImage(url: currentUser?.photoUrl),
-      Text(style: textStyle, currentUser?.userName == null ? "" : currentUser!.userName),
+      UserImage(url: currentUser?.user.photoUrl),
+      Text(style: textStyle, currentUser?.user.displayName == null ? "" : currentUser!.user.displayName!),
     ]);
   }
 }
