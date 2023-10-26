@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:pantry_ui/sign_in/sign_in_button.dart';
+import 'package:pantry_ui/authentication/sign_in_button.dart';
 import 'package:pantry_ui/widgets/user_image.dart';
 import 'package:provider/provider.dart';
 

@@ -1,18 +1,9 @@
-import 'dart:collection';
-
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'authentication/pantry_user.dart';
 import 'networking/api_client.dart';
-
-class PantryUser {
-  GoogleSignInAccount user;
-  String accessToken;
-  int userId;
-
-  PantryUser({required this.user, required this.accessToken, required this.userId}){}
-}
 
 class AppState extends ChangeNotifier {
   PantryUser? currentUser;
@@ -25,8 +16,8 @@ class AppState extends ChangeNotifier {
   Future<void> login(GoogleSignInAccount user) async {
     var authentication = (await user.authentication);
     accessToken = authentication.idToken!;
-    var response = (await authenticate(accessToken));
-    currentUser = PantryUser(user: user, accessToken: accessToken, userId: response.userId);
+    var userId = (await authenticate(accessToken)).id;
+    currentUser = PantryUser(user: user, accessToken: accessToken, userId: userId);
     notifyListeners();
   }
 

@@ -5,8 +5,7 @@ import 'package:pantry_ui/widgets/item_form.dart';
 class CreateItemPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-
-    return Container(
+    return SizedBox(
       width: double.maxFinite,
       height: double.maxFinite,
       child: ItemForm(),

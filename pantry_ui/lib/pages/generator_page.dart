@@ -48,7 +48,6 @@ class GeneratorPage extends StatelessWidget {
             ],
           ),
           Spacer(flex: 2),
-          Image(image: NetworkImage('https://d1xih0ax78qrb8.cloudfront.net/images/11ab29e6-a584-4172-9412-9ea6f7f39bfe.png')),
         ],
       ),
     );

@@ -4,6 +4,8 @@ include(
    ":app",
    ":client",
    ":domain",
+   ":pantry_ui",
+   ":infrastructure"
 )
 
 pluginManagement {

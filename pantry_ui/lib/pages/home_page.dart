@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pantry_ui/pages/create_item_page.dart';
 import 'package:pantry_ui/pages/login_page.dart';
-import 'package:pantry_ui/widgets/item_form.dart';
 import 'package:pantry_ui/widgets/user_header.dart';
 
 import 'favourites_page.dart';

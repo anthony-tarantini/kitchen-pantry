@@ -1,16 +1,13 @@
 import 'package:dio/dio.dart';
 
-class UserResponse {
-  int userId;
+import 'user_response.dart';
 
-  UserResponse({required this.userId}){}
-}
+Future<UserResponse> authenticate(String accessToken) => Dio()
+    .get('http://localhost:8080/users/authenticate',
+        options: Options(headers: {"Authorization": "Bearer $accessToken"}))
+    .then((value) => Future(() => UserResponse.fromJson(value.data)));
 
-Future<UserResponse> authenticate(String accessToken) {
-  final dio = Dio();
-  dio.interceptors.add(LogInterceptor());
-  return dio.get<UserResponse>('http://localhost:8080/users/authenticate',
-      options: Options(headers: {
-        "Authorization": "Bearer $accessToken"
-      })).then((value) => Future.value(value.data));
-}
+Future<String> uploadImageUrl(String accessToken, String url) => Dio()
+    .post('http://localhost:8080/v1/images',
+        queryParameters: {'url': url}, options: Options(headers: {"Authorization": "Bearer $accessToken"}))
+    .then((value) => value.data['imageUrl']);

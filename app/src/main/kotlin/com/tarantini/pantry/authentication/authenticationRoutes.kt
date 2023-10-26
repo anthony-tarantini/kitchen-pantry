@@ -2,8 +2,10 @@ package com.tarantini.pantry.authentication
 
 import com.tarantini.pantry.domain.User
 import com.tarantini.pantry.user.UserService
-import com.tarantini.pantry.utils.*
 import com.tarantini.pantry.utils.Constants.GOOGLE
+import com.tarantini.pantry.utils.getEmail
+import com.tarantini.pantry.utils.getImageUrl
+import com.tarantini.pantry.utils.getUserName
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -21,13 +23,11 @@ fun Route.authenticationRoutes(userService: UserService) {
                { userId ->
                   if (userId == null) {
                      userService.create(user).fold(
-                        {
-                           call.respond(HttpStatusCode.Created, user)
-                        },
+                        { call.respond(HttpStatusCode.Created, user.apply { id = it }) },
                         { call.respond(HttpStatusCode.InternalServerError, it) }
                      )
                   } else {
-                     call.respond(HttpStatusCode.OK, user)
+                     call.respond(HttpStatusCode.OK, user.apply { id = userId })
                   }
                },
                { call.respond(HttpStatusCode.InternalServerError, it) }
