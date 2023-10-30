@@ -11,13 +11,22 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => AppState(),
+      create: (context) {
+        var appState = AppState();
+        appState.init();
+        return appState;
+      },
       child: MaterialApp(
         title: 'Namer App',
         theme: _buildTheme(),

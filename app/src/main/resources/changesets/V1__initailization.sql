@@ -9,7 +9,9 @@ CREATE TABLE pantry_user
 CREATE TABLE item
 (
    id   SERIAL PRIMARY KEY,
-   name VARCHAR(255) NOT NULL
+   name     VARCHAR(255) NOT NULL,
+   imageUrl VARCHAR(100),
+   tags     JSON
 );
 
 CREATE TABLE keyword

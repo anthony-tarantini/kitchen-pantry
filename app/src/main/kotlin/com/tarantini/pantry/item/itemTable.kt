@@ -6,6 +6,8 @@ object ItemTable : Table {
    object Columns {
       const val ID = "id"
       const val NAME = "name"
+      const val IMAGE = "image"
+      const val TAGS = "tags"
    }
 
    override val name: String
@@ -15,7 +17,8 @@ object ItemTable : Table {
 
    override val columns: List<String>
       get() = listOf(
-         Columns.NAME
+         Columns.NAME,
+         Columns.IMAGE,
+         Columns.TAGS
       )
-
 }

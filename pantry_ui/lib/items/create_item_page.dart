@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pantry_ui/widgets/item_form.dart';
+import 'package:pantry_ui/items/item_form.dart';
 
 class CreateItemPage extends StatelessWidget{
   @override
@@ -11,5 +11,4 @@ class CreateItemPage extends StatelessWidget{
       child: ItemForm(),
     );
   }
-
 }

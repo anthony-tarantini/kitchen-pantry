@@ -3,12 +3,11 @@ package com.tarantini.pantry.utils
 import io.ktor.server.auth.jwt.*
 
 object Constants {
-   const val NONCE = "nonce"
    const val GOOGLE = "google"
 }
 
-object CustomHeaders {
-   const val Nonce = "X-Nonce"
+fun <T> orDefault(main: T?, default: T): T {
+   return main ?: default
 }
 
 fun JWTPrincipal.getUserName(): String {
@@ -21,4 +20,8 @@ fun JWTPrincipal.getEmail(): String {
 
 fun JWTPrincipal.getImageUrl(): String {
    return getClaim("picture", String::class).orEmpty()
+}
+
+fun JWTPrincipal.getExpiry(): Long {
+   return orDefault(this.expiresAt?.time, -1)
 }

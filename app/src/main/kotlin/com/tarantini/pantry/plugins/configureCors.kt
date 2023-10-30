@@ -1,6 +1,5 @@
 package com.tarantini.pantry.plugins
 
-import com.tarantini.pantry.utils.CustomHeaders
 import io.ktor.http.*
 import io.ktor.server.plugins.cors.*
 
@@ -17,7 +16,6 @@ fun CORSConfig.configureCors() {
    allowHeader(HttpHeaders.SetCookie)
    allowHeader(HttpHeaders.UserAgent)
    allowHeader(HttpHeaders.Referrer)
-   allowHeader(CustomHeaders.Nonce)
    allowHeader(HttpHeaders.Accept)
    allowHeader(HttpHeaders.Cookie)
 

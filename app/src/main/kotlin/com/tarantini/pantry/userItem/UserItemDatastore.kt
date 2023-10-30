@@ -1,11 +1,13 @@
 package com.tarantini.pantry.userItem
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.tarantini.pantry.datastore.JdbcCoroutineTemplate
 import com.tarantini.pantry.datastore.insertAllInto
 import com.tarantini.pantry.domain.Item
 import com.tarantini.pantry.domain.Measurement
 import com.tarantini.pantry.domain.UserItem
 import com.tarantini.pantry.domain.Weight
+import com.tarantini.pantry.item.ItemTable
 import org.springframework.jdbc.core.RowMapper
 import javax.sql.DataSource
 
@@ -16,8 +18,13 @@ class UserItemDatastore(ds: DataSource) {
    private val mapper = RowMapper { rs, _ ->
       UserItem(
          Item(
-            rs.getString(UserItemProjection.Values.NAME),
-            emptyList()
+            id = rs.getInt(ItemTable.Columns.ID),
+            name = rs.getString(ItemTable.Columns.NAME),
+            image = rs.getString(ItemTable.Columns.IMAGE),
+            tags = jacksonObjectMapper().convertValue(
+               rs.getString(ItemTable.Columns.TAGS),
+               ArrayList<String>()::class.java
+            )
          ),
          Weight(
             rs.getDouble(UserItemProjection.Values.VALUE),

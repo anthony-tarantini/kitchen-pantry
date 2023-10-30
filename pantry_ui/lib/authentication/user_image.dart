@@ -20,8 +20,10 @@ class UserImage extends StatelessWidget {
             border: Border.all(color: theme.colorScheme.primary, width: 5),
             image: DecorationImage(
                 fit: BoxFit.fill,
-                image: NetworkImage(url == null ? "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" : url!)
-            )
+                image: Image.network(url == null
+                        ? "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+                        : url!)
+                    .image)
         )
     );
   }

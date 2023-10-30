@@ -6,3 +6,8 @@ data class User(
    val email: String,
    var id: Int? = null
 )
+
+data class AuthenticationResponse(
+   val user: User,
+   val expiry: Long
+)

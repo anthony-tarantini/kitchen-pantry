@@ -20,7 +20,7 @@ fun Route.itemEndpoints(service: ItemService) {
 
       post("/items") {
          withRequest<CreateItemRequest> { request ->
-            service.create(request.name, request.tags).fold(
+            service.create(request.name, request.image, request.tags).fold(
                { result -> call.respond(HttpStatusCode.Created, result) },
                { call.respond(HttpStatusCode.InternalServerError, it) }
             )

@@ -1,11 +1,8 @@
 package com.tarantini.pantry.plugins
 
 import com.auth0.jwk.JwkProviderBuilder
-import com.tarantini.pantry.app.Config
 import com.tarantini.pantry.app.GoogleAuth
 import com.tarantini.pantry.utils.Constants.GOOGLE
-import com.tarantini.pantry.utils.Constants.NONCE
-import com.tarantini.pantry.utils.CustomHeaders
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import java.net.URL
