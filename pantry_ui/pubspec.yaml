@@ -46,6 +46,7 @@ dependencies:
    flutter_image: ^4.1.9
    file_selector: ^1.0.1
    shared_preferences: ^2.2.2
+   textfield_tags: ^2.0.2
 
 dev_dependencies:
    flutter_test:

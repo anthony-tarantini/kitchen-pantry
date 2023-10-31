@@ -4,7 +4,6 @@ import 'package:pantry_ui/authentication/user_header.dart';
 import 'package:pantry_ui/items/create_item_page.dart';
 
 import 'favourites_page.dart';
-import 'generator_page.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -21,15 +20,13 @@ class _MyHomePageState extends State<MyHomePage> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = GeneratorPage();
+        page = CreateItemPage();
         break;
       case 1:
         page = FavoritesPage();
         break;
       case 2:
         page = LoginPage();
-      case 3:
-        page = CreateItemPage();
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
@@ -68,10 +65,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         icon: Icon(Icons.login),
                         label: 'Login',
                       ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.face),
-                        label: 'Form',
-                      ),
                     ],
                     currentIndex: selectedIndex,
                     onTap: (value) {
@@ -103,10 +96,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       NavigationRailDestination(
                         icon: Icon(Icons.login),
                         label: Text('Login'),
-                      ),
-                      NavigationRailDestination(
-                        icon: Icon(Icons.face),
-                        label: Text('Form'),
                       ),
                     ],
                     selectedIndex: selectedIndex,

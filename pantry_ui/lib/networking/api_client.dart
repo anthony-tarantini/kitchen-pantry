@@ -25,7 +25,7 @@ class ApiClient {
       .then((value) => value.data['imageUrl']);
 
   Future<String> uploadImage(String accessToken, File file) => client
-      .post('v1/images', options: Options(headers: getHeaders(accessToken)))
+      .post('/v1/images', options: Options(headers: getHeaders(accessToken)))
       .then((value) => value.data['imageUrl']);
 
   static final ApiClient _instance = ApiClient._privateConstructor("http://localhost:8080");
