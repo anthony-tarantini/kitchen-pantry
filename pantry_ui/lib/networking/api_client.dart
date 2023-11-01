@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:pantry_ui/items/item.dart';
 
 import '../authentication/authentication_response.dart';
 
@@ -25,8 +26,12 @@ class ApiClient {
       .then((value) => value.data['imageUrl']);
 
   Future<String> uploadImage(String accessToken, File file) => client
-      .post('/v1/images', options: Options(headers: getHeaders(accessToken)))
+      .post('/v1/images', data: file, options: Options(headers: getHeaders(accessToken)))
       .then((value) => value.data['imageUrl']);
+
+  Future<Item> createItem(String accessToken, Item item) => client
+      .post('/v1/items', data: item.toJson(), options: Options(headers: getHeaders(accessToken)))
+      .then((value) => Item.fromJson(value.data));
 
   static final ApiClient _instance = ApiClient._privateConstructor("http://localhost:8080");
 

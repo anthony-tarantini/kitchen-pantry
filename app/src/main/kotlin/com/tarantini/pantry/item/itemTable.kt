@@ -7,7 +7,7 @@ object ItemTable : Table {
       const val ID = "id"
       const val NAME = "name"
       const val IMAGE = "image"
-      const val TAGS = "tags"
+      const val TAGS = "categories"
    }
 
    override val name: String

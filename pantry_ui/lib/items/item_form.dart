@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:pantry_ui/items/Image_modal.dart';
+import 'package:pantry_ui/items/item.dart';
 import 'package:pantry_ui/networking/api_client.dart';
 import 'package:provider/provider.dart';
 import 'package:textfield_tags/textfield_tags.dart';
@@ -21,7 +22,7 @@ class _ItemFormState extends State<ItemForm> {
   late AppState appState;
   late String url;
   late File? file;
-  late List<String> tags;
+  late List<String> categories;
   late double _distanceToField;
   late TextfieldTagsController _controller;
 
@@ -31,7 +32,7 @@ class _ItemFormState extends State<ItemForm> {
     _controller = TextfieldTagsController();
     url = 'https://d1xih0ax78qrb8.cloudfront.net/images/64e1c18a-3f3d-4406-acf4-ef4df1a9fd31.png';
     file = null;
-    tags = [];
+    categories = [];
   }
 
   void updateImage(String newUrl) {
@@ -40,9 +41,9 @@ class _ItemFormState extends State<ItemForm> {
     });
   }
 
-  void addTag(String tag) {
+  void addCategory(String category) {
     setState(() {
-      tags.add(tag);
+      categories.add(category);
     });
   }
 
@@ -84,19 +85,19 @@ class _ItemFormState extends State<ItemForm> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                    Center(
-                      child: ElevatedButton(
-                        child: const Text('Upload from file'),
-                        onPressed: () {
-                          showModalBottomSheet<void>(
-                            context: context,
-                            builder: (_) =>
-                                ImageModal(accessToken: appState.accessToken, type: 'file', callback: updateImage),
-                          );
-                        },
-                      ),
-                    ),
-                    Center(
+                        // Center(
+                        //   child: ElevatedButton(
+                        //     child: const Text('Upload from file'),
+                        //     onPressed: () {
+                        //       showModalBottomSheet<void>(
+                        //         context: context,
+                        //         builder: (_) =>
+                        //             ImageModal(accessToken: appState.accessToken, type: 'file', callback: updateImage),
+                        //       );
+                        //     },
+                        //   ),
+                        // ),
+                        Center(
                       child: ElevatedButton(
                         child: const Text('Upload from url'),
                         onPressed: () {
@@ -115,7 +116,8 @@ class _ItemFormState extends State<ItemForm> {
                         width: 500,
                         child: Padding(
                             padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 50.0),
-                            child: TextFormField(
+                            child: FormBuilderTextField(
+                                name: 'name',
                                 decoration: InputDecoration(
                                     floatingLabelStyle: theme.primaryTextTheme.displaySmall,
                                     floatingLabelAlignment: FloatingLabelAlignment.start,
@@ -135,7 +137,7 @@ class _ItemFormState extends State<ItemForm> {
                             textSeparators: const [' ', ','],
                             letterCase: LetterCase.normal,
                             inputfieldBuilder: (context, tec, fn, error, onChanged, onSubmitted) {
-                              return ((context, sc, tags, onTagDelete) {
+                              return ((context, sc, categories, onCategoryDelete) {
                                 return Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: TextField(
@@ -153,15 +155,15 @@ class _ItemFormState extends State<ItemForm> {
                                           width: 3.0,
                                         ),
                                       ),
-                                      hintText: _controller.hasTags ? '' : "Enter tag...",
+                                      hintText: _controller.hasTags ? '' : "Enter category...",
                                       errorText: error,
                                       prefixIconConstraints: BoxConstraints(maxWidth: _distanceToField * 0.74),
-                                      prefixIcon: tags.isNotEmpty
+                                      prefixIcon: categories.isNotEmpty
                                           ? SingleChildScrollView(
                                               controller: sc,
                                               scrollDirection: Axis.horizontal,
                                               child: Row(
-                                                  children: tags.map((String tag) {
+                                                  children: categories.map((String category) {
                                                 return Container(
                                                   decoration: const BoxDecoration(
                                                     borderRadius: BorderRadius.all(
@@ -174,10 +176,10 @@ class _ItemFormState extends State<ItemForm> {
                                                     children: [
                                                       InkWell(
                                                         child: Text(
-                                                          tag,
+                                                          category,
                                                         ),
                                                         onTap: () {
-                                                          print("$tag selected");
+                                                          print("$category selected");
                                                         },
                                                       ),
                                                       const SizedBox(width: 4.0),
@@ -187,7 +189,7 @@ class _ItemFormState extends State<ItemForm> {
                                                           size: 14.0,
                                                         ),
                                                         onTap: () {
-                                                          onTagDelete(tag);
+                                                          onCategoryDelete(category);
                                                         },
                                                       )
                                                     ],
@@ -208,7 +210,7 @@ class _ItemFormState extends State<ItemForm> {
                             onPressed: () {
                               _controller.clearTags();
                             },
-                            child: const Text('Clear Tags'),
+                            child: const Text('Clear Categories'),
                           ),
                           SizedBox(
                             height: 10,
@@ -217,8 +219,9 @@ class _ItemFormState extends State<ItemForm> {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                    _formKey.currentState?.saveAndValidate();
-                  },
+                          _formKey.currentState?.saveAndValidate();
+                          await ApiClient().createItem(appState.accessToken, Item.withCategories(name: _formKey.currentState!.value['name'], image: url, categories: _controller.getTags!));
+                        },
                   child: const Text('Create Item'),
                       ),
                       SizedBox(height: 10),

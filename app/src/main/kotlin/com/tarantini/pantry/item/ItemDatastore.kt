@@ -19,14 +19,14 @@ class ItemDatastore(ds: DataSource) {
          id = rs.getInt(Columns.ID),
          name = rs.getString(Columns.NAME),
          image = rs.getString(Columns.IMAGE),
-         tags = jacksonObjectMapper().convertValue(rs.getString(Columns.TAGS), ArrayList<String>()::class.java)
+         categories = jacksonObjectMapper().convertValue(rs.getString(Columns.TAGS), ArrayList<String>()::class.java)
       )
    }
 
    suspend fun insert(item: Item): Result<Int> {
       return template.update(
          insertAllInto(ItemTable),
-         listOf(item.name, item.image, jacksonObjectMapper().toJson())
+         listOf(item.name, item.image, item.categories.toJson())
       )
    }
 

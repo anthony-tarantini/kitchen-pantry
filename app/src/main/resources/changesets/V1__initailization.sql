@@ -10,7 +10,7 @@ CREATE TABLE item
 (
    id   SERIAL PRIMARY KEY,
    name     VARCHAR(255) NOT NULL,
-   imageUrl VARCHAR(100),
+   imageUrl VARCHAR(255),
    tags     JSON
 );
 

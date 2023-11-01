@@ -23,7 +23,7 @@ class _ImageModalState extends State<ImageModal> {
   Future<void> selectFile() async {
     const XTypeGroup typeGroup = XTypeGroup(
       label: 'images',
-      extensions: <String>['jpg', 'png'],
+      extensions: <String>['png'],
     );
     XFile? chosenFile = await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
     if (chosenFile != null) {

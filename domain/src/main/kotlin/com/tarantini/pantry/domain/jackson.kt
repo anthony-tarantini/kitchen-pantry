@@ -18,5 +18,5 @@ object JacksonSupport {
 
    inline fun <reified T> String.fromJson() = mapper.readValue<T>(this)
    inline fun <reified T> ByteArray.fromJson() = mapper.readValue<T>(this)
-   fun Any.toJson() = mapper.writeValueAsString(this)
+   fun Any.toJson(): String = mapper.writeValueAsString(this)
 }

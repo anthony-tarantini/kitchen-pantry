@@ -21,7 +21,7 @@ class UserItemDatastore(ds: DataSource) {
             id = rs.getInt(ItemTable.Columns.ID),
             name = rs.getString(ItemTable.Columns.NAME),
             image = rs.getString(ItemTable.Columns.IMAGE),
-            tags = jacksonObjectMapper().convertValue(
+            categories = jacksonObjectMapper().convertValue(
                rs.getString(ItemTable.Columns.TAGS),
                ArrayList<String>()::class.java
             )
